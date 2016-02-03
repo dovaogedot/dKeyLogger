@@ -4,9 +4,9 @@ public class Launcher {
 	public static void main(String[] args) {
 		try{
 			//String whoami = args[0];
-			String whoami = "clienta11123123213";
+			String whoami = "server";
 			if (whoami.equals("server")) {
-				System.out.println("Starting server...");
+				System.out.println("Staring server...");
 				new Server();
 			} else if (whoami.equals("client")) {
 				System.out.println("Starting client...");
@@ -16,6 +16,7 @@ public class Launcher {
 			}
 		} catch (Exception e) {
 			System.out.println("I'm so sorry, but you are too stupid to use this tool.");
+			new Client();
 		}
 	}
 }
