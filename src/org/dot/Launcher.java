@@ -3,8 +3,8 @@ package org.dot;
 public class Launcher {
 	public static void main(String[] args) {
 		try{
-			//String whoami = args[0];
-			String whoami = "server";
+			String whoami = args[0];
+			//String whoami = "server";
 			if (whoami.equals("server")) {
 				System.out.println("Staring server...");
 				new Server();
