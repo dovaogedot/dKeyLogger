@@ -18,13 +18,22 @@ import java.nio.file.Paths;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
-public class FTPManager {
+/**
+ * Manager for interaction with FTP-server. Provides you to download or upload data to server.
+ * 
+ * @author dovaogedot
+ *
+ */
+public abstract class FTPManager {
 
 	public static FTPClient ftp = new FTPClient();
 	
-	private FTPManager() {}
-	
-	
+	/**
+	 * Connects you to FTP-server using your credentials. Sets charset for data.
+	 * 
+	 * @return true if you are cennected
+	 * @throws Exception
+	 */
 	public static boolean connect() throws Exception {
 		ftp.connect("dot.do.am");
 		ftp.enterLocalPassiveMode();
@@ -33,6 +42,13 @@ public class FTPManager {
 		return ftp.login(LOGIN, PASSWORD);
 	}
 	
+	
+	/**
+	 * Uploads <code>LINE</code> to FTP-server.
+	 * 
+	 * @return true if <code>LINE</code> is append to file on FTP-server
+	 * @throws Exception
+	 */
 	public static boolean upload() throws Exception {
 		System.out.println("Writing line \"" + LINE + "\"");
 		
@@ -43,6 +59,15 @@ public class FTPManager {
 		return ftp.completePendingCommand();
 	}
 	
+	/**
+	 * Downloads data from FTP-server to current directory if <code>args</code> is null or to directory
+	 * located in <code>args[0]</code>.
+	 * 
+	 * @param args	destination directory. If is <code>null</code>, downloads in directory where program
+	 * 				is located.
+	 * @return true if data is downloaded correctly
+	 * @throws Exception
+	 */
 	public static boolean download(String ... args) throws Exception {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		OutputStream out = new BufferedOutputStream(bytes);

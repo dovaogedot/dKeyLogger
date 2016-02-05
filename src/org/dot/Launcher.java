@@ -1,6 +1,20 @@
 package org.dot;
 
+/**
+ * Class that decides whether you are prey or predator
+ * 
+ * @author dovaogedot
+ * @see org.dot.Client
+ * @see org.dot.Server
+ */
+
 public class Launcher {
+	
+	/**
+	 * Main function
+	 * 
+	 * @param args who are you?
+	 */
 	public static void main(String[] args) {
 		try{
 			String whoami = args[0];
